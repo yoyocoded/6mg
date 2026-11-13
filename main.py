@@ -29,7 +29,7 @@ WHERE EACH PREFERENCE SHOWS UP (everything else in the prefs list has no place i
 
 To change a preference later (e.g. from a settings screen):  State.prefs["reference_prices"] = False ; navigate(App.current)
 """
-
+import sys
 import asyncio
 import calendar
 import datetime
@@ -514,13 +514,20 @@ def style(size, weight=400, color=C_TEXT, **kw):
     return ft.TextStyle(size=size, weight=W[weight], color=color, font_family=FONT, **kw)
 
 
+WEB_IMAGES = "https://yoyocoded.github.io/6mg/images/"   # where the pictures are hosted online
+
+
 def find_image(pid):
-    """The file to show for an item: the exact name from PRODUCT_IMAGES if that file is in the assets folder (or a web address),
-    otherwise None and the grey square stays."""
+    """The file to show for an item: a web address as given, the hosted copy when running in the browser,
+    otherwise the exact name from PRODUCT_IMAGES if that file is in the assets folder, else None (grey square)."""
     src = PRODUCT_IMAGES.get(pid) or ""
+    if not src:
+        return None
     if src.startswith(("http://", "https://")):
         return src
-        return src if src else None
+    if sys.platform == "emscripten":                      # running in the browser
+        return WEB_IMAGES + src
+    return src if os.path.isfile(os.path.join(ASSETS_DIR, src)) else None
 
 
 def item_image(pid, size, radius, on_click=None):
