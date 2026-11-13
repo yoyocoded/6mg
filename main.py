@@ -520,7 +520,7 @@ def find_image(pid):
     src = PRODUCT_IMAGES.get(pid) or ""
     if src.startswith(("http://", "https://")):
         return src
-    return src if src and os.path.isfile(os.path.join(ASSETS_DIR, src)) else None
+        return src if src else None
 
 
 def item_image(pid, size, radius, on_click=None):
