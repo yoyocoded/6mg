@@ -1,0 +1,9 @@
+__pycache__/
+build/
+.flet/
+venv/
+.venv/
+pou sem 3/
+main-1.py
+*.pdf
+*.xlsx
