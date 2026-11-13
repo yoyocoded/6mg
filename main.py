@@ -525,9 +525,8 @@ def find_image(pid):
         return None
     if src.startswith(("http://", "https://")):
         return src
-    if sys.platform == "emscripten":                      # running in the browser
-        return WEB_IMAGES + src
-    return src if os.path.isfile(os.path.join(ASSETS_DIR, src)) else None
+    local = os.path.join(ASSETS_DIR, src)
+    return src if os.path.isfile(local) else WEB_IMAGES + src
 
 
 def item_image(pid, size, radius, on_click=None):
